@@ -8,10 +8,10 @@
     <!-- <link rel="stylesheet" href="style.css">  -->
 
        <!-- Uses Internal CSS to color the backgroud of my page-->
+
+       <script src="index.js"></script>    
 <style>
-        
-                 
- </style> 
+  </style> 
 
   </head>
   <body style="background-color:rgb(122, 214, 229)">
@@ -46,54 +46,39 @@
 
 <center>
     <div style="width:70%; height: auto; border:3px solid;
-                border-color:rgba(72, 186, 225, 0.626); 
+                border-color:rgba(18, 118, 151, 0.626); 
                 border-width: 10px;
                 
                 background-color:rgb(199, 232, 243);
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 
                  'Lucida Sans', Arial, sans-serif;text-align:center;">
-
-          
-
-            <!-- Centers and creates a table that will contains the data (freelancers Name, 
-                  Occupation and Starting Price)-->
 <center>
             <br>
             
 
         <table class="table">
-              <thead> </thead>
-
-
-              <tbody> </tbody>
+            <tr>
+                <th style="padding-right:40px; margin-left:40px;">Name  </th>
+                <th style="padding-right:40px">Date / Time </th>
+                <th style="padding-right:40px">Location </th>
+                <th style="padding-right:40px">Description </th>
+            </tr>
         </table>
 
-           <table>
-                  <tr>
-                      <th style="padding-right:40px; margin-left:40px;">Name  </th>
-                      <th style="padding-right:40px">Date / Time </th>
-                      <th style="padding-right:40px">Location </th>
-                  </tr>
-
-                  <tr>
-                   <div><ul> </ul></div>
-                       <td>  <p id="dataDisplayName" >  </p>  </td>
-                       <td>  <p id="dataDisplayDateTime" >  </p>  </td>
-                       <td>  <p id="dataDisplayLoc" >   </p>  </td>
-                  </tr>
-            </table>
-
-            <ul></ul>
-        
-    </center>           
-        
-    </div>
 </center>
-    
-</div>
+
+                   <div>
+                    <ul> 
+                       <li id="dataDisplay" >  <p id ="displayDeleteButton"> <p> </li>
+                    </ul> 
+                   </div>
+            
+</center>           
+</div>     
+
 <center>
     <div style="width:70%; height: auto; border:3px solid;
-                border-color:rgba(72, 186, 225, 0.626); 
+                border-color:rgba(18, 118, 151, 0.626); 
                 border-width: 10px;
     
                 background-color:rgb(199, 232, 243);
@@ -102,275 +87,33 @@
        <h2 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 
                 'Lucida Sans', Arial, sans-serif;text-align:center;" >
                 To add a party to the List above please enter the information below</h2> 
-         <form class="form" style="text-align: left; border-style:ridge; width:550px; height:200px; padding-left: 20px;
-                      background-color:aliceblue; padding-top:20px;">
 
-              Name <input name="Name" type="text" placeholder="Joe Smith">
-               <br>
-              Date /Time <input name="DateTime" type= "datetime-local" placeholder="dataDisplayDateTime"> 
-              <br>
-              Location <input name="Location" type="text" placeholder="300 Main st.">
-              <br>
-              Description <input name="Description" type="textarea" placeholder="Birthday 12 year old boy" max="100">
-             <br><br>
-                  <center>
-                         <button type="submit">Submit</button>
-                  </center>
+                
+    <form class="form" style="text-align: left; border-style:ridge; width:550px; height:200px; padding-left: 20px;
+                              background-color:aliceblue; padding-top:20px;">
+
+              Name <input  name="name" type="text" placeholder="Joe Smith">
+                   <br>
+              Description <input  name="description" type="textarea" placeholder="Birthday " max="100">
+                   <br>    
+              Date /Time <input name="date" type="datetime-local" > 
+                    <br>
+              Location <input name="location" type="textarea" placeholder="300 Main st.">
+                    <br>
+            
+            
+    <center><button id="PostData" type="submit">Submit</button></center>
+
                <br>
                <br>
 
        
-        </form>
-        <br>
-        <br>
+    </form>
+    
+    <br>
+    <br>
 </div>
 <br>
 <br>
 
 </center>
-<div id="person"></div>
-</body style="background-color:blue">
-
-
-<!--<script src="index.js"></script> -->	
-
-<script>
-async function DisplayData(){
-    try{
-        const response=await fetch('https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events');
-        const json =await response.json();
-        state.data=json.data;
-    }   catch (error) {
-        console.error(error);
-    }
-}
-
-
-function DisplayData(){
-const personElement=document.getElementById("#person");
-
-    if (!state.data.length){
-        personElement.innerHTML="<li>No artists.</li>";
-        return;
-    }
-
- const Names=state.data.map((artist)=>  {
-    const li=document.createElement("li");
-      li.innerHTML=`
-      <h2>${data.names}<h2>
-
-        `;
-        return li;
- });
-
-}
-
-/*
-const personElement=document.getElementById('person');
-const URL='https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events';
-fetch(URL)
-.then(response=>response.json())
-.then(responseJson=> {
-    for (let  {name} of responseJson) {
-        console.log (response);
-        console.log(name);
-        const personName=document.createElement('p');
-        personName.innerText=name;
-        personElement.append(personName);
-    } 
-
-})
-*//*
-
-async function fillTable(table) {
-    const tableBody=table.querySelector(".tbody");
-    const response = await fetch("https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events"); 
-    const data = await response.json();
-    console.log(data[0]);
-
-    //clear our table
-
-    tablebody.innerHTML =" ";
-
-//for contents
- 
-for (let i=0; i<data.length;i++){
-    const obj = Object.values(data[i]);
-    const rowElement= document.createElement("div");
-    for (const cellText of obj) {
-        const cellElement = document.createElement("div");
-        cellElement.textContent=cellText;
-        rowElement.append(cellElement);
-
-    }
-    //tableBody.appendChild(rowElement);
-}
-       
-}
-/*
-fillTable("https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events",document.querySelector(".table"))
-
-*/
-//************************************************************************************
-//get data and display in HTML
-
-                     //in Fetch parameter pass the URL
-                     //this will return a promise
-fetch('https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events')
-
-                     //can use the then method to get the data
-                      // in then method you need to pass the call back function
-                     // you get the RES response as parameter
-
-   .then(function(res){
-                         // you can see  the response by console.log
-                          //In the body property you will find all the data
-                         //can see the  data until you convert it to json
-                                             //console.log(res);
-
-                             //so do to convert to json and see it do 
-                             // in promise result you will see the data
-                                         //console.log(res.json())
-
-                            // to access the data you have to return res.json from
-                            //this function       
-      return res.json();
-   })
-
-                            //use "then" method to handle promise then you pass the call back function and 
-                            //use data as parameter
-
-   .then(function(data){
-
-                              //this will show you all the data
-               console.log(data);
-                 
-list=document.querySelector("#dataDisplayName");
-  
-    data.data.forEach((data2)=>{
-        let P=document.createElement("p");
-        P.innerText=(data2.name);
-        list.append(P);
-     });
-    });
-
-
-/***************************************************************
- /   for (let i=0; i<data.length;i++){
-    const obj = Object.values(data[i]);
-    const rowElement= document.createElement("tr");
-    for (const cellText of obj) {
-        const cellElement = document.createElement("td");
-        cellElement.textContent=cellText;
-        rowElement. appendChild(cellElement);
-
-    }
-    tableBody.appendChild(rowElement);
-}
-})  
-  */ 
-   //DISPLAY
-
-
-   
-//you can change the functions to arrow function and get
-
-//    fetch("url")
-//       .then ((res)=>res.json())
-//       .then((data) => console.log(data));
-
-//call fetch method to add new post
-//need to pass another arguement which is configuration object property of this object
-//is "method" 
-
-
-//******* send a post ********************************************
-
-//data to send
-/*
-const data={
-    name: "john"
-   // DateTime:DateTime.value
-   // Location:Location.value
-   // Description:Description.value
-}
-
-// pass API method which is "post"
-// to send data you need the body property
-fetch('https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events',{
-       method:"POST",
-
-// Some API can not accept data in json format
-// stringify will convert data to string format 
-       body:JSON.stringify(data),
-       headers:{ "content-type": "application/json"
-    }
-}).then ((res) =>res.json())
-   .then((data) => console.log(data));
-*/
-/********************************************************************
-
-
- listName=document.querySelector("#dataDisplayName");
-
-  data.forEach((events)=>{
-      let p =document.createElement("p");
-       p.innerText=events.Name;
-       listName.append(p);
-   });
-
-
-
-
-
-//***********************************************************************************
-//*********************** selects the form using class *****************************/
-// adds input from form to API
-
-
-const formElem= document.querySelector('.form');
-//const data=new URLSearchParams(formData);
-
-             // listens   for the submit elementt 
-formElem.addEventListener('submit', (event) =>
-{
-             //prevents the default event
-    event.preventDefault();
-    
-
-      const data= { 
-        name:event.target.Name.value,
-        
-      }     
- 
-    fetch ("https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events",
-         {
-             method:"post",
-              body:JSON.stringify(data),
-              headers:{ "content-type": "application/json"}
-
-        }).then ((res) =>res.json())
-          .then((data) => console.log(data));
-        //.catch(error => console.log(error));    
-
-});
-
-/***************** to delete */
- 
-//fetch ("https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-acc-pt-web-pt-b/events",{
-   // body:JSON.stringify(data),
-   // headers:{ "content-type": "application/json"}
-
-//}).then ((res) =>res.json())
-        //  .then((data) => console.log(data));
-        //.catch(error => console.log(error));    
-
-//});
-
-
-</script>
-
-
-</body>
-  
-</html>
