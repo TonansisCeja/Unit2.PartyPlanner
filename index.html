@@ -8,10 +8,10 @@
     <!-- <link rel="stylesheet" href="style.css">  -->
 
        <!-- Uses Internal CSS to color the backgroud of my page-->
-
-       <script src="index.js"></script>    
 <style>
-  </style> 
+        
+                 
+ </style> 
 
   </head>
   <body style="background-color:rgb(122, 214, 229)">
@@ -59,18 +59,20 @@
         <table class="table">
             <tr>
                 <th style="padding-right:40px; margin-left:40px;">Name  </th>
-                <th style="padding-right:40px">Date / Time </th>
-                <th style="padding-right:40px">Location </th>
                 <th style="padding-right:40px">Description </th>
+               
+                <th style="padding-right:40px">Location </th>
+                <th style="padding-right:40px">Date / Time </th>
+              
             </tr>
         </table>
 
 </center>
 
                    <div>
-                    <ul> 
-                       <li id="dataDisplay" >  <p id ="displayDeleteButton"> <p> </li>
-                    </ul> 
+                    
+                       <p id="dataDisplay" > </p> 
+                    
                    </div>
             
 </center>           
@@ -102,7 +104,7 @@
                     <br>
             
             
-    <center><button id="PostData" type="submit">Submit</button></center>
+    <center><button type="submit">Submit</button></center>
 
                <br>
                <br>
@@ -117,3 +119,123 @@
 <br>
 
 </center>
+
+<!-----------------------script--------------------------------------------------------->
+
+<script>
+//const party=fetch('https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-CPU-RM-WEB-PT/events')
+//user object in the global space
+
+const initialState={events:[]}
+    
+const state=initialState;
+
+/*******   get data*****/
+
+const getData=async ()=>{
+                       //retrieves array of objects from API
+    let res=await fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-CPU-RM-WEB-PT/events`); 
+                     //converts data
+    const data=await res.json();
+
+                   //assigns data to variable
+    let events=data.data;
+    console.log(events);
+    state.events=events;
+    
+
+    displayData();
+}
+
+/******************* delete button  **************************************/
+const deleteParty=async(id)=>{
+
+try{
+    let res=await fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-CPU-RM-WEB-PT/events/${id}`,{method:'DELETE',});
+    await getData();
+}catch(error){
+    console.error('Error:',error);
+}
+   
+}
+
+/********************************Display Data ******************************** *****************/
+
+const displayData=()=>
+   {
+                 //create empty string
+    let eventHTMLString='';
+                 //Point to location in Html using "dataDisplay" ID
+    let eventsHTML=document.getElementById('dataDisplay');
+                 //loops through data
+    state.events.forEach(event=>{
+                 //assigns the html code to variable for the delete button 
+                 // onclick event the deleteParty function is called with
+                 // parameter event.id use style to TRY to format data
+        eventHTMLString+=`
+        <div class="events">
+            <center>
+            <p style=" padding-left:10px;">${event.name}</p>
+            <p style=" padding-left:10px;">${event.description}</p>
+            <p style=" padding-left:10px;">${event.location}</p>
+            <p style=" padding-left:10px;">${event.date}</p>
+           
+                          
+            <button onclick="deleteParty(${event.id})">delete</button>
+            <hr>
+            </center>
+        </div>
+        `;
+    })
+
+eventsHTML.innerHTML=eventHTMLString;
+   }
+  
+/************************* Form input add to server **********************************************************/
+
+
+const formElem= document.querySelector('form');
+const parties=new URLSearchParams(FormData);
+
+             // listens   for the submit elementt 
+formElem.addEventListener('submit', (event) =>
+{
+             //prevents the default event
+   event.preventDefault();
+    
+       //assign value from form to variable "party"
+    const party= { 
+                   name:event.target.name.value,
+                   description:event.target.description.value,
+                   date: new Date(event.target.date.value).toISOString(),
+                   //date:new Date(event.target.date.value),
+                  
+                   location:event.target.location.value
+                   
+                  }    
+                  // use this console.log to see what being assigned
+                  console.log(party); 
+
+                  //post data fto API using Fetch.
+  fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/2308-CPU-RM-WEB-PT/events`,
+   
+         {
+            method:"POST",
+            body:JSON.stringify(party),
+            headers:{ "Content-Type": "application/json"}
+
+         })
+       .then((res) =>res.json())
+       .then((party) => displayData());
+
+getData();
+displayData();
+    
+
+});
+getData();
+displayData();
+
+</script>
+</body>
+</html>
